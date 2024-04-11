@@ -22,6 +22,7 @@ public class Passport {
     @Column(name = "unique_number")
     int uniqueNumber;
 
+    @ToString.Exclude
     @OneToOne(cascade = {
             CascadeType.PERSIST,
             CascadeType.DETACH,

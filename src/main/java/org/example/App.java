@@ -1,32 +1,48 @@
 package org.example;
 
 import org.example.model.Passport;
+import org.example.model.SocialMedia;
 import org.example.model.User;
 import org.example.service.UserService;
+import org.example.service.impl.SocialMediaService;
 import org.example.service.impl.UserServiceImpl;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Hello world!
  */
 public class App {
     private static final UserService USER_SERVICE = new UserServiceImpl();
+    private static final SocialMediaService SM_SERVICE = new SocialMediaService();
 
     public static void main(String[] args) {
 
-        Passport foreignPassport = new Passport("foreign_passport", 73);
-        Passport innerPassport = new Passport("inner_passport", 97);
+        User samira = USER_SERVICE.findById(1L);
+        User rabia = USER_SERVICE.findById(2L);
 
-//        User user = new User("user_name", "user_last_name", innerPassport);
-//        User user2 = new User("user_name2", "user_last_name2", foreignPassport);
+        SocialMedia whatsApp = new SocialMedia("whatsApp", 1_000_000_000);
+        SocialMedia youTube = new SocialMedia("youtube", 1_500_000_000);
+        SocialMedia tiktok = new SocialMedia("tiktok", 1_000_000_000);
 
+        whatsApp.setUsers(Collections.singletonList(samira));
+        tiktok.setUsers(Collections.singletonList(samira));
 
-        User user1 = USER_SERVICE.findById(3L);
+        whatsApp.setUsers(Collections.singletonList(rabia));
+        youTube.setUsers(Collections.singletonList(rabia));
 
-        user1.setPassport(foreignPassport);
-        USER_SERVICE.save(user1);
-        System.out.println(user1.getPassport());
+        ArrayList<SocialMedia> socialMedia = new ArrayList<>(Arrays.asList(whatsApp, youTube));
+        ArrayList<SocialMedia> socialMedia1 = new ArrayList<>(Arrays.asList(whatsApp, tiktok));
 
-//        USER_SERVICE.deleteById(2L);
+        samira.setSocialMedias(socialMedia);
+        rabia.setSocialMedias(socialMedia1);
+
+        USER_SERVICE.save(samira);
+        USER_SERVICE.save(rabia);
+
 
     }
+
 }
